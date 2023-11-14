@@ -4,9 +4,9 @@ namespace prjAjaxCoreMVC.Controllers
 {
     public class apiController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string name,int age)
         {
-            return Content("Hello Ajax!!");
+            return Content($"Hello {name},age is {age}!!");
         }
     }
 }

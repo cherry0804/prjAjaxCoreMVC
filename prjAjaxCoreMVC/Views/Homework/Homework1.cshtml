@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "Homework1";
+}
+
+<h1>Homework1</h1>
+
+<div class="cards" id="allcards">
+    <div class="card">
+        <img src="/images/unknown.png" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+<script src="~/js/travel.js"></script>
+<script>
+    console.log(spots)
+</script>
+<script>
+    let imgss = "";
+    const datas = spots.CommonFormat.Section.map(spots => {
+        const { stitle, file, xbody } = spots;
+
+        if (spots.file.img[0] == undefined) {
+            imgss = spots.file.img.text;
+        } else {
+            imgss = spots.file.img[0].text;
+        }
+        
+        console.log(imgss);
+
+        return (
+            `
+            <div class="card">
+                <img src="${imgss}" class="card-img-top" alt="${stitle}">
+                <div class="card-body">
+                    <h5 class="card-title">${stitle}</h5>
+                    <p class="card-text">${xbody}</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+                    `
+        )
+    })
+
+    document.querySelector('#allcards').innerHTML = datas.join("");
+</script>
+}
+
+
+@* spots.CommonFormat.Section.file.img.text *@
+@* spots.CommonFormat.Section.stitle *@
+@* spots.CommonFormat.Section.xbody *@
+@* spots.CommonFormat.Section.xurl *@
