@@ -15,6 +15,17 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+<table id="tableEmployee" class="table table-bordered  table-hover">
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>年資</th>
+            <th>薪水</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
 
 @section Scripts{
     <script>
@@ -50,7 +61,22 @@
             console.log(emp.employees[i].salary);
             
         }
+        
 
+        const datas = emp.employees.map(employee => {
+            const { name, workYears, salary } = employee;
+            return(
+                `
+                <tr>
+                <td>${name}</td>
+                <td>${workYears}</td>
+                <td>${salary}</td>
+                </tr>
+                `
+            )
+        })
+
+        document.querySelector('#tableEmployee>tbody').innerHTML = datas.join("");
 
     </script>
 }
