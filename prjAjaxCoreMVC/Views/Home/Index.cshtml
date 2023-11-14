@@ -16,9 +16,41 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-@section scripts
-{
+@section Scripts{
     <script>
-        $('.display-4').css('background-color', 'yellow');
+        // const emps = [{ "name": "Tom", "workYears": 3, "salary": 35000 },
+        // { "name": "Jack", "workYears": 5, "salary": 40000 },
+        // { "name": "Mary", "workYears": 7, "salary": 45000 }];
+        // //emps = [];
+        // console.log(emps[1]);
+        // //emps[1]={}
+        // console.log(emps[1].name);
+
+        // for(let i=0,max=emps.length;i<max;i++){
+        //    console.log(emps[i].name);
+        //    console.log(emps[i].workYears);
+        //    console.log(emps[i].salary);
+        // }
+
+
+
+        const emp = {
+            "employees": [
+                { "name": "Tom", "workYears": 3, "salary": 35000 },
+                { "name": "Jack", "workYears": 5, "salary": 40000 },
+                { "name": "Mary", "workYears": 7, "salary": 45000 }
+            ]
+        };
+
+        // emp = [];
+        
+        for (let i = 0, max = emp.employees.length; i < max;i++){
+            console.log(emp.employees[i].name);
+            console.log(emp.employees[i].workYears);
+            console.log(emp.employees[i].salary);
+            
+        }
+
+
     </script>
 }
