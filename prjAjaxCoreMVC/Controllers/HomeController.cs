@@ -31,6 +31,7 @@ namespace prjAjaxCoreMVC.Controllers
 
         public IActionResult First()
         {
+            
             return View();
         }
     }
