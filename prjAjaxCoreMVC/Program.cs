@@ -1,7 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using prjAjaxCoreMVC.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<DemoContext>(
+    options=>options.UseSqlServer(
+        builder.Configuration.GetConnectionString("NorthwindConnection")
+        ));
+
+
+
 
 var app = builder.Build();
 
@@ -22,6 +32,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Homework}/{action=Homework1}/{id?}");
+    pattern: "{controller=Home}/{action=Register}/{id?}");
 
 app.Run();
