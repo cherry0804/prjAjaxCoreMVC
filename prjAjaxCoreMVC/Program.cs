@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DemoContext>(
     options=>options.UseSqlServer(
-        builder.Configuration.GetConnectionString("NorthwindConnection")
+        builder.Configuration.GetConnectionString("DemoConnection")
         ));
 
 

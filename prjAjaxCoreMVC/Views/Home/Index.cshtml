@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<prjAjaxCoreMVC.Models.Members>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -26,6 +28,13 @@
     <tbody>
     </tbody>
 </table>
+
+@* <ul>
+    @foreach(var Member in Model)
+    {
+        <li>@Member.Name</li>
+    }
+</ul> *@
 
 @section Scripts{
     <script>

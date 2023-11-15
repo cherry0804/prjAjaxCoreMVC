@@ -13,5 +13,10 @@ namespace prjAjaxCoreMVC.Controllers
         {
             return View();
         }
+
+        public IActionResult Homework2()
+        {
+            return View();
+        }
     }
 }
