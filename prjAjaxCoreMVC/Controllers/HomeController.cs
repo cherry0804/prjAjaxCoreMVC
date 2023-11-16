@@ -62,5 +62,10 @@ namespace prjAjaxCoreMVC.Controllers
         {
             return View(_context.Members);
         }
+
+        public IActionResult History()
+        {
+            return View();
+        }
     }
 }

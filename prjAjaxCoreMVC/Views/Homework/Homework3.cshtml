@@ -38,7 +38,7 @@
 
 @section Scripts
     {
-    <script>
+@*      <script>
 
         const selectcity = document.querySelector('#selectCity');
         const selectdistrict = document.querySelector('#selectDistrict');
@@ -73,8 +73,6 @@
             xhr.send();
         }
 
-        loadCity();
-
         function loadDistrict() {
 
             const xhr = new XMLHttpRequest();
@@ -100,10 +98,66 @@
             xhr.send();
         }
 
+        loadCity();
+
+    </script>  *@
+
+
+
+
+    @* ChatGPT *@
+
+    <script>
+        const selectcity = document.querySelector('#selectCity');
+        const selectdistrict = document.querySelector('#selectDistrict');
+        const selectroad = document.querySelector('#selectRoad');
+
+        selectcity.addEventListener('change', async () => {
+            await loadDistrict();
+        });
+
+        selectdistrict.addEventListener('change', async () => {
+            await loadRoad();
+        });
+
+        async function loadCity() {
+            try {
+                const response = await fetch('@Url.Content("~/api/cities")');
+                const datas = await response.json();
+                const cities = datas.map(city => `<option value='${city}'>${city}</option>`);
+                selectcity.innerHTML = cities.join("");
+            } catch (error) {
+                console.error('Error loading cities:', error);
+            }
+        }
+
+        async function loadDistrict() {
+            try {
+                const response = await fetch(`@Url.Content("~/api/districts")?city=${selectcity.value}`);
+                const datas = await response.json();
+                const districts = datas.map(district => `<option value='${district}'>${district}</option>`);
+                selectdistrict.innerHTML = districts.join("");
+            } catch (error) {
+                console.error('Error loading districts:', error);
+            }
+        }
+
+        async function loadRoad() {
+            try {
+                const response = await fetch(`@Url.Content("~/api/roads")?city=${selectcity.value}&district=${selectdistrict.value.substring(3)}`);
+                const datas = await response.json();
+                const roads = datas.map(road => `<option value='${road}'>${road}</option>`);
+                selectroad.innerHTML = roads.join("");
+            } catch (error) {
+                console.error('Error loading roads:', error);
+            }
+        }
+
+        async function initialize() {
+            await loadCity();
+        }
+
+        initialize();
     </script>
-
-
-
-
 
 }
