@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewData["Title"] = "promise";
+}
+
+<h1>promise</h1>
+
+@section Scripts{
+    <script>
+        //等1秒，依序同時印出A、B、C
+        //setTimeout(function () {
+        //    console.log('A');
+        //}, 1000);
+        //setTimeout(function () {
+        //    console.log('B');
+        //}, 1000);
+        //setTimeout(function () {
+        //    console.log('C');
+        //}, 1000);
+
+        //等1秒印出C，再等1秒印出B，再等1秒印出A(全部印出要3秒鐘)
+        //setTimeout(function () {
+        //    console.log('A');
+        //}, 3000);
+        //setTimeout(function () {
+        //    console.log('B');
+        //}, 2000);
+        //setTimeout(function () {
+        //    console.log('C');
+        //}, 1000);
+
+        //等1秒印出A，再等1秒印出B，再等1秒印出C(全部印出要3秒鐘)
+        //setTimeout(function () {
+        //    console.log('A');
+        //    setTimeout(function () {
+        //        console.log('B');
+        //        setTimeout(function () {
+        //            console.log('C');
+        //        }, 1000);
+        //    }, 1000);
+        //}, 1000);
+
+        // //建立Promise物件
+        //const promise =  new Promise((resolve, reject)=>{
+        //    //程式碼要做甚麼 非同步，例如Ajax 程式
+        //    const num = Math.random() > 0.5 ? 1 : 0;
+        //    if(num){
+        //        resolve("成功" + num);
+        //    }else{
+        //        reject("失敗" + num);
+        //    }
+        //})
+
+        ////使用Promise物件
+        //promise
+        //.then(data=>{
+        //    console.log(data);
+        //})
+        //.catch(error=>{
+        //    console.log(error);
+        //})
+        //.finally(()=>{
+        //    console.log('end');
+        //})
+
+        function printSomething(data) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(data);
+                }, 1000)
+            })
+        }
+
+        printSomething('A')
+            .then(data => {
+                console.log(data);
+                return printSomething('B')
+            })
+            .then(data => {
+                console.log(data);
+                return printSomething('C')
+            })
+            .then(data => {
+                console.log(data);
+            })
+
+
+    </script>
+}
+

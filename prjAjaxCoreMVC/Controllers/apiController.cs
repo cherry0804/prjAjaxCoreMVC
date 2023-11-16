@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using prjAjaxCoreMVC.Models;
 using prjAjaxCoreMVC.ViewModel;
 
@@ -23,7 +24,7 @@ namespace prjAjaxCoreMVC.Controllers
         }
 
 
-        public IActionResult register(MemberViewModel member,IFormFile formFile)
+        public IActionResult register(Members member,IFormFile formFile)
         {
             string path = Path.Combine(_host.WebRootPath, "uploads", formFile.FileName);
 
@@ -32,12 +33,66 @@ namespace prjAjaxCoreMVC.Controllers
                 formFile.CopyTo(fileStream);
             }
 
+            member.FileName = formFile.FileName;
+            //將上傳的圖轉成二進位
+            byte[]? imgByte = null;
+            using (var memoryStream = new MemoryStream())
+            {
+                formFile.CopyTo(memoryStream);
+                imgByte = memoryStream.ToArray();
+            }
+            member.FileData = imgByte;
 
-            return Content(path);
+            //將資料寫進資料庫中
+            _demoContext.Members.Add(member);
+            _demoContext.SaveChanges();
+
+            return Content("新增成功");
+
+            //return Content(path);
 
             //return Content("<h2>Ajax 你好 !!</h2>","text/html", System.Text.Encoding.UTF8);
             //return Content($"Hello {member.name}，{member.email},  You are {member.age} years old.");
         }
+
+        public IActionResult Cities()
+        {
+            var cities = (from c in _demoContext.Address
+                         select c.City).Distinct();
+
+            return Json(cities);
+        }
+
+        public IActionResult districts(string city)
+        {
+            var districts = (from d in _demoContext.Address
+                             where d.City == city
+                             select d.SiteId).Distinct();
+
+            return Json(districts);
+        }
+
+        public IActionResult Roads(string city,string district)
+        {
+            var roads = (from d in _demoContext.Address
+                        where d.City == city && d.SiteId == city + district
+                        select d.Road).Distinct();
+
+            return Json(roads);
+        }
+
+        public IActionResult GetImageByte(int id = 1)
+        {
+            Members? member = _demoContext.Members.Find(id);
+            byte[]? img = member?.FileData;
+
+            if (img != null)
+            {
+                return File(img, "image/jpeg");
+            }
+            return NotFound();
+        }
+
 
         public IActionResult checkName(MemberViewModel vm)
         {

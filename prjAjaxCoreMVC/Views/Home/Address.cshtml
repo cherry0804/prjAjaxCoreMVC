@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewData["Title"] = "Address";
+}
+
+<h1>Address</h1>
+
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+
+        <form id="AddressForm">
+
+            <div class="mb-3">
+                <label for="selectCity" class="form-label">縣市</label>
+                <select name="city" class="form-control" id="selectCity"></select>
+            </div>
+
+            <div class="mb-3">
+                <label for="selectDistrict">鄉鎮市區</label>
+                <select name="district" class="form-control" id="selectDistrict"></select>
+            </div>
+
+            <div class="mb-3">
+                <label for="selectRoad" class="form-label">路名</label>
+                <select name="road" class="form-control" id="selectRoad"></select>
+            </div>
+
+            <button id="buttonSubmit" type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+        <div id="div1" class="alert alert-info"></div>
+        <iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src=https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=臺北市大安區&z=16&output=embed&t=></iframe>
+    </div>
+    <div class="col-3">
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+
+        const selectcity = document.querySelector('#selectCity');
+        const selectdistrict = document.querySelector('#selectDistrict');
+        const selectroad = document.querySelector('#selectRoad');
+
+        selectcity.addEventListener('change', () => {
+            console.log(selectcity.value);
+            // cityx = selectcity.value;
+            // console.log(cityx);
+            // console.log('@Url.Content("~/api/districts")' + '?city='+cityx);
+            // cityy = '@Url.Content("~/api/districts")' + '?city=' + cityx;
+            // console.log(cityy);
+
+            loadDistrict();
+        })
+
+        selectdistrict.addEventListener('change', () => {
+            console.log(selectdistrict.value);
+
+            loadRoad();
+        })
+
+        function loadCity(){
+            
+            const xhr = new XMLHttpRequest();
+            xhr.addEventListener('load', () => {
+                const datas = JSON.parse(xhr.responseText);
+                const cities = datas.map(city => `<option value='${city}'>${city}</option>` )
+                selectcity.innerHTML = cities.join("");
+            })
+            xhr.open('GET', '@Url.Content("~/api/cities")');
+            xhr.send();
+        }
+
+        loadCity();
+
+        function loadDistrict() {
+
+            const xhr = new XMLHttpRequest();
+            xhr.addEventListener('load', () => {
+                const datas = JSON.parse(xhr.responseText);
+                const districts = datas.map(district => `<option value='${district}'>${district}</option>`)
+                selectdistrict.innerHTML = districts.join("");
+            })
+            xhr.open('GET', `@Url.Content("~/api/districts")?city=${selectcity.value}`);
+            xhr.send();
+        }
+
+        function loadRoad() {
+
+            const xhr = new XMLHttpRequest();
+            xhr.addEventListener('load', () => {
+                const datas = JSON.parse(xhr.responseText);
+                const roads = datas.map(road => `<option value='${road}'>${road}</option>`)
+                selectroad.innerHTML = roads.join("");
+            })
+            xhr.open('GET', `@Url.Content("~/api/roads")?city=${selectcity.value}&district=${selectdistrict.value.substring(3)}`);
+            console.log(`@Url.Content("~/api/roads")?city=${selectcity.value}&district=${selectdistrict.value.substring(3)}`)
+            xhr.send();
+        }
+
+     </script>
+
+
+
+
+
+}

@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewData["Title"] = "Members";
+}
+
+<h1>Members</h1>
+<ul>
+    @foreach (var member in Model)
+    {
+        <li>@member.Name</li>
+    }
+</ul>
+

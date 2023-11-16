@@ -43,6 +43,24 @@ namespace prjAjaxCoreMVC.Controllers
             return View();
         }
 
+        public IActionResult Address()
+        {
+            return View();
+        }
 
+        public IActionResult promise()
+        {
+            return View();
+        }
+
+        public IActionResult Fetch()
+        {
+            return View();
+        }
+
+        public IActionResult Members()
+        {
+            return View(_context.Members);
+        }
     }
 }

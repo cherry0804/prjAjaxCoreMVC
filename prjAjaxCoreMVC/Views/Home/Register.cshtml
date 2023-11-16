@@ -40,25 +40,37 @@
         btn.addEventListener('click', event => {
             event.preventDefault();
 
-            //建立Ajax物件
-            const xhr = new XMLHttpRequest();
+            // //建立Ajax物件
+            // const xhr = new XMLHttpRequest();
 
-            //接收資料
-            xhr.addEventListener('load', () => {
-                const data = xhr.responseText;
-                divMessage.innerHTML = data;
-            })
+            // //接收資料
+            // xhr.addEventListener('load', () => {
+            //     const data = xhr.responseText;
+            //     divMessage.innerHTML = data;
+            // })
 
-            //建立FormData物件
+            // //建立FormData物件
+            // const formData = new FormData(document.querySelector('#memberForm'));
+
+
+
+            // //發出要求
+            // xhr.open('POST', '@Url.Content("~/api/register")');
+            // // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            // xhr.send(formData);
+
+            //使用fetch
             const formData = new FormData(document.querySelector('#memberForm'));
-
-
-
-            //發出要求
-            xhr.open('POST', '@Url.Content("~/api/register")');
-            // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(formData);
-
+            fetch('@Url.Content("~/api/register")', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("新增成功");
+                        location.href = '@Url.Content("~/home/members")';
+                    }
+                })
         })
     </script>
 }
