@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewData["Title"] = "jQuery";
+}
+
+<h1>jQuery</h1>
+<button id="buttonGet" class="btn btn-primary">get</button>
+<button id="buttonPost" class="btn btn-secondary">post</button>
+<button id="buttonJson" class="btn btn-success">getJson</button>
+<button id="buttonLoad" class="btn btn-info">load</button>
+<button id="buttonAjax" class="btn btn-warning">ajax</button>
+<button id="buttonCors" class="btn btn-danger">cors</button>
+<div class="alert alert-dark mt-3 w-50" role="alert" id="divAlert">
+
+</div>
+<ul class="list-group">
+    </ul>
+@section Scripts{
+    <script>
+        $('#buttonGet').click(function () {
+            $.get('@Url.Content("~/api/Index")', { "name": "Jack", "age": 28 }, (data) => {
+                $('#divAlert').text(data);
+            })
+
+        })
+        $('#buttonPost').click(function () {
+            $.post('@Url.Content("~/api/Index")', { "name": "Mary", "age": 30 }, (data) => {
+                $('#divAlert').text(data);
+            })
+        })
+        $('#buttonJson').click(function () {
+            $.getJSON('@Url.Content("~/api/cities")', (datas) => {
+                const docFrag = $(document.createDocumentFragment());
+                $.each(datas, (index, city) => {
+                    console.log(city);
+                    // <li class="list-group-item" > An item < /li>
+                    const li = $('<li></li>').text(city).addClass('list-group-item');
+                    docFrag.append(li);
+                })
+                $('.list-group').html(docFrag);
+            })
+            $('#divAlert').text("JSON")
+        })
+        // $('#buttonLoad').click(function () {
+            $('#divAlert').load('@Url.Content("~/home/partial2")');
+        // })
+        $('#buttonAjax').click(function () {
+            $.ajax('@Url.Content("~/api/cities")', {
+                "type": 'GET', //POST、PUT、DELETE
+                // "data": { "name": "Steve", "age": 39},
+                "dataType": "json"
+            })
+                .done((data) => {
+                    $('#divAlert').text(data);
+                })
+            $('#divAlert').text("AJAX")
+        })
+        $('#buttonCors').click(function () {
+            $.getJSON('https://localhost:7084/api/Shippers', (datas) => {
+                console.log(datas);
+            })
+        })
+
+    </script>
+}
